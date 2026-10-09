@@ -1,0 +1,11 @@
+/build/
+/out/
+/.vs/
+/.vscode/
+/CMakeUserPresets.json
+*.user
+imgui.ini
+*.imgui.ini
+
+/assets/downloaded/
+__pycache__/

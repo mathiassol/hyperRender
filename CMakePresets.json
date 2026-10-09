@@ -1,0 +1,32 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "vs2022",
+      "displayName": "Visual Studio 2022",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/vs2022"
+    },
+    {
+      "name": "vs2026",
+      "displayName": "Visual Studio 2026",
+      "generator": "Visual Studio 18 2026",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/vs2026"
+    },
+    {
+      "name": "vs2022-dx12",
+      "inherits": "vs2022",
+      "displayName": "Visual Studio 2022, Vulkan + D3D12 (experimental)",
+      "binaryDir": "${sourceDir}/build/vs2022-dx12",
+      "cacheVariables": { "HYPER_WITH_DX12": "ON" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "vs2022-debug", "configurePreset": "vs2022", "configuration": "Debug" },
+    { "name": "vs2022-release", "configurePreset": "vs2022", "configuration": "RelWithDebInfo" },
+    { "name": "vs2026-debug", "configurePreset": "vs2026", "configuration": "Debug" },
+    { "name": "vs2026-release", "configurePreset": "vs2026", "configuration": "RelWithDebInfo" }
+  ]
+}

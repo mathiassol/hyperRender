@@ -1,0 +1,26 @@
+# Builds everything with Visual Studio 2022 on GitHub's Windows runners. The runners have no
+# GPU, so the image tests can't run here: they run locally (docs/testing.md).
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install the Vulkan SDK
+        uses: humbletim/install-vulkan-sdk@v1.2
+        with:
+          version: 1.4.309.0
+          cache: true
+      - name: Configure
+        run: cmake --preset vs2022
+      - name: Build (release)
+        run: cmake --build --preset vs2022-release
+      - name: Build (debug)
+        run: cmake --build --preset vs2022-debug

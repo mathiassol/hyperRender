@@ -1,0 +1,38 @@
+# Capture cases for tools/capture_all.ps1: name, app, then the app's arguments
+# (run from the bin directory). Apps not listed get a case with no arguments.
+# The scene cases need `pwsh tools/fetch_assets.ps1`, and the ray-traced ones a GPU
+# with ray queries.
+#
+# The *-stream cases load the way the apps run interactively (--async-load): on a thread,
+# textures streaming in last, the order a cold disk gives. Their clock and frame count
+# start once everything is in, so each must look like its synchronous twin.
+
+hello            hello
+clouds           clouds
+
+# apps/scene opts into everything (ray-traced shadows, reflections, GI, fog).
+scene            scene
+scene-stream     scene  --async-load
+# The scene app's raster set alone: no ray tracing, no fog.
+scene-defaults   scene  --set gi=0 --set rtshadows=0 --set rtreflections=0 --set fog=0
+scene-donut      scene  --set gpudriven=0
+# Every module constructed and switched off: nothing of theirs may run (Donut's G-buffer,
+# lighting and sky, and post, draw the frame).
+scene-off        scene  --set gi=0 --set rtshadows=0 --set rtreflections=0 --set fog=0 --set shadows=0 --set ao=0 --set ssr=0 --set atmosphere=0 --set ibl=0 --set gpudriven=0
+scene-meshlets   scene  --set gi=0 --set meshlets=1
+scene-lod        scene  --set gi=0 --set meshlets=1 --set lod=1
+# Needs `python tools/make_stress_scene.py field`: 3,600 dense spheres, cluster LOD's case.
+scene-field-lod  scene  --scene downloaded/stress_field.gltf --set gi=0 --set rtshadows=0 --set rtreflections=0 --set fog=0 --set meshlets=1 --set lod=1
+scene-volumes    scene  --set smoke=1 --set clouds=1
+# Scene edits: everything out at frame 10 and back at 20; an instance added at 10, removed at
+# 20. Auto-exposure and DDGI off: they'd still remember the ten frames (both look as without).
+scene-edit       scene  --set edit=1 --set autoexposure=0 --set gi=0
+scene-edit-add   scene  --set edit=2 --set autoexposure=0 --set gi=0
+scene-debug-gi   scene  --set debug=3
+scene-blend      scene  --scene downloaded/AlphaBlendModeTest/glTF/AlphaBlendModeTest.gltf
+scene-skinned    scene  --scene downloaded/CesiumMan/glTF/CesiumMan.gltf
+scene-cornell    scene  --scene scenes/cornell_box.gltf
+# The reference path tracer, 240 samples per pixel (the seeds are fixed, so the noise repeats).
+scene-reference  scene  --set reference=1 --set refspp=4
+scene-cornell-ref scene --scene scenes/cornell_box.gltf --set reference=1 --set refspp=4
+scene-helmet-hdr scene  --scene downloaded/DamagedHelmet/glTF/DamagedHelmet.gltf --env downloaded/hdri/kloofendal_48d_partly_cloudy_puresky_1k.hdr

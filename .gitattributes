@@ -1,0 +1,8 @@
+# Text files with LF in the repository; Windows tools handle LF fine.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary
+*.jpg binary
+*.hdr binary
+*.bin binary
+*.glb binary
