@@ -10,11 +10,22 @@ Two ways to build on hyperRender:
 ## 1. Add the submodule
 
 ```powershell
-git submodule add https://github.com/<you>/hyperRender.git external/hyperRender
+git submodule add https://github.com/mathiassol/hyperRender.git external/hyperRender
 git submodule update --init --recursive
 ```
 
 `--recursive` matters: hyperRender has Donut as its own submodule.
+
+A submodule is pinned to one commit, so your project builds the same hyperRender until you
+move it. Pin it to a release:
+
+```powershell
+git -C external/hyperRender checkout v0.1.0
+git add external/hyperRender
+git commit -m "hyperRender v0.1.0"
+```
+
+On GitHub the folder then shows as `hyperRender @ <commit>`, a link to exactly that version.
 
 ## 2. CMakeLists.txt
 

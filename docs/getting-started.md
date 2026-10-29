@@ -20,7 +20,7 @@ Ti; other GPUs should work, but haven't been tried yet.
 ## 2. Clone and build
 
 ```powershell
-git clone --recursive https://github.com/<you>/hyperRender.git
+git clone --recursive https://github.com/mathiassol/hyperRender.git
 cd hyperRender
 cmake --preset vs2026
 cmake --build --preset vs2026-release
